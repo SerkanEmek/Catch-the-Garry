@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity() {
     var imageArray = ArrayList<ImageView>()
     var handler = Handler(Looper.getMainLooper())
     var runnable = Runnable{}
+    lateinit var timer: CountDownTimer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +42,7 @@ class MainActivity : AppCompatActivity() {
 
         increaseScore(binding)
 
-        var timer = object : CountDownTimer(15000,1000) {
+        timer = object : CountDownTimer(15000,1000) {
             override fun onTick(p0: Long) {
                 binding.timeTextView.text = "Time: " + p0/1000
             }
@@ -148,5 +149,16 @@ class MainActivity : AppCompatActivity() {
         handler.post(runnable)
 
     }
+    
+    
+      override fun onBackPressed() {
+        super.onBackPressed()
+        val intent = Intent(applicationContext,MainActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        startActivity(intent)
+        timer.cancel()
+    }
+    
+    
 
 }
